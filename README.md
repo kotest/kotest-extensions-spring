@@ -16,4 +16,5 @@ Please create issues on the main kotest [board](https://github.com/kotest/kotest
 
 ### 1.0.0
 
+* Deprecated SpringTestListener in favour of SpringTestExtension
 * Migrated from the main Kotest repo to a standalone repo.
