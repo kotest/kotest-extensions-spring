@@ -21,6 +21,7 @@ plugins {
    signing
    maven
    `maven-publish`
+   id("org.jetbrains.kotlin.plugin.spring") version "1.4.32"
    kotlin("jvm").version(Libs.kotlinVersion)
 }
 
@@ -31,6 +32,7 @@ allprojects {
    version = Ci.version
 
    dependencies {
+      implementation(kotlin("reflect"))
       implementation(Libs.Kotest.api)
       implementation(Libs.Kotest.engine)
       implementation(Libs.Spring.context)
@@ -38,6 +40,7 @@ allprojects {
       implementation(Libs.Coroutines.coreJvm)
       implementation(Libs.Bytebuddy.bytebuddy)
       testImplementation(Libs.Kotest.junit5)
+      testImplementation("org.springframework.boot:spring-boot-starter-test:2.2.5.RELEASE")
    }
 
    tasks.named<Test>("test") {

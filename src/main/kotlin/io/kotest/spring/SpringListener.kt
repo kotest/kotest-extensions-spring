@@ -1,13 +1,13 @@
 package io.kotest.spring
 
 import io.kotest.core.extensions.ConstructorExtension
-import io.kotest.core.internal.KotestEngineProperties
 import io.kotest.core.listeners.TestListener
 import io.kotest.core.spec.AutoScan
 import io.kotest.core.spec.Spec
 import io.kotest.core.test.TestCase
 import io.kotest.core.test.TestResult
 import io.kotest.core.test.TestType
+import io.kotest.extensions.spring.Properties
 import io.kotest.mpp.sysprop
 import net.bytebuddy.ByteBuddy
 import net.bytebuddy.description.modifier.Visibility
@@ -114,7 +114,7 @@ class SpringTestListener(private val mode: SpringTestLifecycleMode) : TestListen
 
    private val ignoreFinalWarning =
       ignoreSpringListenerOnFinalClassWarning ||
-         !sysprop(KotestEngineProperties.springIgnoreWarning, "false").toBoolean()
+         !sysprop(Properties.springIgnoreWarning, "false").toBoolean()
 }
 
 /**
