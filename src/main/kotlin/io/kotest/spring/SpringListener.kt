@@ -35,6 +35,7 @@ enum class SpringTestLifecycleMode {
    Root, Test
 }
 
+@Deprecated("Use SpringExtension SpringTestExtension")
 class SpringTestListener(private val mode: SpringTestLifecycleMode) : TestListener {
 
    var ignoreSpringListenerOnFinalClassWarning: Boolean = false
