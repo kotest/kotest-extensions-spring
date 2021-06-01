@@ -1,6 +1,6 @@
 object Libs {
 
-   const val kotlinVersion = "1.4.31"
+   const val kotlinVersion = "1.4.32"
    const val org = "io.kotest.extensions"
 
    object Kotest {
@@ -11,7 +11,7 @@ object Libs {
    }
 
    object Spring {
-      private const val version = "5.2.12.RELEASE"
+      private const val version = "5.2.15.RELEASE"
       const val context = "org.springframework:spring-context:$version"
       const val test = "org.springframework:spring-test:$version"
    }

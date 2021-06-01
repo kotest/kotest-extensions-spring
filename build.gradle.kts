@@ -21,7 +21,7 @@ plugins {
    signing
    maven
    `maven-publish`
-   id("org.jetbrains.kotlin.plugin.spring") version "1.5.10"
+   id("org.jetbrains.kotlin.plugin.spring") version "1.4.32"
    kotlin("jvm").version(Libs.kotlinVersion)
 }
 
