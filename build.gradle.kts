@@ -40,7 +40,7 @@ allprojects {
       implementation(Libs.Coroutines.coreJvm)
       implementation(Libs.Bytebuddy.bytebuddy)
       testImplementation(Libs.Kotest.junit5)
-      testImplementation("org.springframework.boot:spring-boot-starter-test:2.5.0")
+      testImplementation("org.springframework.boot:spring-boot-starter-test:2.5.2")
    }
 
    tasks.named<Test>("test") {
