@@ -21,6 +21,7 @@ import java.lang.reflect.Modifier
 import kotlin.coroutines.AbstractCoroutineContextElement
 import kotlin.coroutines.CoroutineContext
 import kotlin.coroutines.coroutineContext
+import kotlin.reflect.KClass
 
 class SpringTestContextCoroutineContextElement(val value: TestContextManager) : AbstractCoroutineContextElement(Key) {
    companion object Key : CoroutineContext.Key<SpringTestContextCoroutineContextElement>
@@ -40,6 +41,8 @@ class SpringTestExtension(private val mode: SpringTestLifecycleMode) : TestCaseE
    var ignoreSpringListenerOnFinalClassWarning: Boolean = false
 
    override suspend fun intercept(spec: Spec, execute: suspend (Spec) -> Unit) {
+      safeClassName(spec::class)
+
       val context = TestContextManager(spec::class.java)
       withContext(SpringTestContextCoroutineContextElement(context)) {
          testContextManager().beforeTestClass()
@@ -72,12 +75,10 @@ class SpringTestExtension(private val mode: SpringTestLifecycleMode) : TestCaseE
     * Generates a fake [Method] for the given [TestCase].
     *
     * Check https://github.com/kotest/kotest/issues/950#issuecomment-524127221
-    * for a in-depth explanation. Too much to write here
+    * for an in-depth explanation. Too much to write here
     */
    private fun method(testCase: TestCase): Method {
-      val klass = testCase.spec::class.java
-
-      return if (Modifier.isFinal(klass.modifiers)) {
+      return if (Modifier.isFinal(testCase.spec::class.java.modifiers)) {
          if (!ignoreFinalWarning) {
             println("Using SpringListener on a final class. If any Spring annotation fails to work, try making this class open.")
          }
@@ -87,7 +88,7 @@ class SpringTestExtension(private val mode: SpringTestLifecycleMode) : TestCaseE
       } else {
          val methodName = methodName(testCase)
          val fakeSpec = ByteBuddy()
-            .subclass(klass)
+            .subclass(testCase.spec::class.java)
             .defineMethod(methodName, String::class.java, Visibility.PUBLIC)
             .intercept(FixedValue.value("Foo"))
             .make()
@@ -95,6 +96,17 @@ class SpringTestExtension(private val mode: SpringTestLifecycleMode) : TestCaseE
             .loaded
          fakeSpec.getMethod(methodName)
       }
+   }
+
+   /**
+    * Checks for a safe class name and throws if invalid
+    * https://kotlinlang.org/docs/keyword-reference.html#soft-keywords
+    */
+   internal fun safeClassName(kclass: KClass<*>) {
+      // these are names java won't let us use but are ok from kotlin
+      val illegals = listOf("import", "finally", "catch", "const", "final", "inner", "protected", "private", "public")
+      if (kclass.java.name.split('.').any { illegals.contains(it) })
+         error("Spec package name cannot contain a java keyword: ${illegals.joinToString(",")}")
    }
 
    /**
