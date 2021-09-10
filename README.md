@@ -14,6 +14,11 @@ Please create issues on the main kotest [board](https://github.com/kotest/kotest
 
 ## Changelog
 
+### 1.0.1
+
+* Support for JDK 8
+* Better warning when using a Kotlin [soft-keyword in a package name](https://github.com/kotest/kotest/issues/2489).
+
 ### 1.0.0
 
 * Deprecated SpringTestListener in favour of SpringTestExtension
