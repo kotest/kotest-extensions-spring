@@ -14,6 +14,12 @@ Please create issues on the main kotest [board](https://github.com/kotest/kotest
 
 ## Changelog
 
+### 1.1.0
+
+* Requires Kotest 5.0 and Kotlin 1.6
+* Deprecated SpringListener removed
+* Supports isolation modes
+
 ### 1.0.1
 
 * Support for JDK 8
