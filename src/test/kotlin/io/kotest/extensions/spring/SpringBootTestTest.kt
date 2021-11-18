@@ -1,4 +1,4 @@
-package io.kotest.spring
+package io.kotest.extensions.spring
 
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.shouldBe
@@ -8,7 +8,7 @@ import org.springframework.boot.test.context.SpringBootTest
 @SpringBootTest(classes = [Components::class])
 class SpringBootTestTest : FunSpec() {
 
-    override fun listeners() = listOf(SpringListener)
+   override fun extensions() = listOf(SpringExtension)
 
     @Autowired
     lateinit var userService: UserService

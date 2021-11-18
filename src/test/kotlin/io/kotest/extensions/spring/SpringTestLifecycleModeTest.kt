@@ -1,4 +1,4 @@
-package io.kotest.spring
+package io.kotest.extensions.spring
 
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.shouldBe
@@ -6,32 +6,32 @@ import org.springframework.test.context.TestContext
 import org.springframework.test.context.TestExecutionListener
 import org.springframework.test.context.TestExecutionListeners
 
-@TestExecutionListeners(value = [SpringRootExecutionListener::class])
-class SpringRootLifecycleModeTest : DescribeSpec() {
+@TestExecutionListeners(value = [SpringTestExecutionListener::class])
+class SpringTestLifecycleModeTest : DescribeSpec() {
    init {
 
-      listener(SpringTestListener(SpringTestLifecycleMode.Root))
+      extensions(SpringTestExtension(SpringTestLifecycleMode.Test))
 
       beforeSpec {
          before shouldBe 0
       }
 
-      describe("the outer scope should be initialized by the spring listener") {
-         before shouldBe 1
-         it("inner scope should have no effect") {
+      describe("an outer scope should not be initialized by the spring listener") {
+         before shouldBe 0
+         it("but the inner scope should be") {
             before shouldBe 1
             after shouldBe 0
          }
-         after shouldBe 0
+         after shouldBe 1
       }
 
-      describe("the outer scope should be initialized by the spring listener part 2") {
-         before shouldBe 2
-         it("inner scope should have no effect") {
+      describe("an outer scope should not be initialized by the spring listener part 2") {
+         before shouldBe 1
+         it("but the inner scope should be") {
             before shouldBe 2
             after shouldBe 1
          }
-         after shouldBe 1
+         after shouldBe 2
       }
 
       afterSpec {
@@ -43,7 +43,7 @@ class SpringRootLifecycleModeTest : DescribeSpec() {
 private var before = 0
 private var after = 0
 
-private class SpringRootExecutionListener : TestExecutionListener {
+private class SpringTestExecutionListener : TestExecutionListener {
 
    override fun beforeTestMethod(testContext: TestContext) {
       before++

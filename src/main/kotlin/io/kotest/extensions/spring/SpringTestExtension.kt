@@ -8,8 +8,7 @@ import io.kotest.core.spec.Spec
 import io.kotest.core.test.TestCase
 import io.kotest.core.test.TestResult
 import io.kotest.core.test.TestType
-import io.kotest.mpp.sysprop
-import io.kotest.spring.SpringTestLifecycleMode
+import io.kotest.core.test.isRootTest
 import kotlinx.coroutines.withContext
 import net.bytebuddy.ByteBuddy
 import net.bytebuddy.description.modifier.Visibility
@@ -28,6 +27,17 @@ class SpringTestContextCoroutineContextElement(val value: TestContextManager) : 
 }
 
 /**
+ * Determines how the spring test context lifecycle is mapped to test cases.
+ *
+ * [SpringTestLifecycleMode.Root] will setup and teardown the test context before and after root tests only.
+ * [SpringTestLifecycleMode.Test] will setup and teardown the test context only at leaf tests.
+ *
+ */
+enum class SpringTestLifecycleMode {
+   Root, Test
+}
+
+/**
  * Returns the [TestContextManager] from a test or spec.
  */
 suspend fun testContextManager(): TestContextManager =
@@ -37,6 +47,8 @@ suspend fun testContextManager(): TestContextManager =
 val SpringExtension = SpringTestExtension(SpringTestLifecycleMode.Test)
 
 class SpringTestExtension(private val mode: SpringTestLifecycleMode) : TestCaseExtension, SpecExtension {
+
+   constructor() : this(SpringTestLifecycleMode.Test)
 
    var ignoreSpringListenerOnFinalClassWarning: Boolean = false
 
@@ -68,7 +80,7 @@ class SpringTestExtension(private val mode: SpringTestLifecycleMode) : TestCaseE
    /**
     * Returns true if this test case should have the spring lifecycle methods applied
     */
-   private fun TestCase.isApplicable() = (mode == SpringTestLifecycleMode.Root && description.isRootTest()) ||
+   private fun TestCase.isApplicable() = (mode == SpringTestLifecycleMode.Root && isRootTest()) ||
       (mode == SpringTestLifecycleMode.Test && type == TestType.Test)
 
    /**
@@ -114,12 +126,12 @@ class SpringTestExtension(private val mode: SpringTestLifecycleMode) : TestCaseE
     * The method name is taken from the test case path.
     */
    internal fun methodName(testCase: TestCase): String {
-      return testCase.description.testPath().value.replace("[^a-zA-Z_0-9]".toRegex(), "_").let {
+      return testCase.descriptor.path(false).value.replace("[^a-zA-Z_0-9]".toRegex(), "_").let {
          if (it.first().isLetter()) it else "_$it"
       }
    }
 
    private val ignoreFinalWarning =
       ignoreSpringListenerOnFinalClassWarning ||
-         !sysprop(Properties.springIgnoreWarning, "false").toBoolean()
+         !System.getProperty(Properties.springIgnoreWarning, "false").toBoolean()
 }

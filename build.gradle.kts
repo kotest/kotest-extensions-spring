@@ -16,17 +16,14 @@ buildscript {
 plugins {
    java
    `java-library`
-   id("java-library")
-   id("maven-publish")
    signing
    maven
    `maven-publish`
-   id("org.jetbrains.kotlin.plugin.spring") version "1.6.0"
    kotlin("jvm").version(Libs.kotlinVersion)
+   id("org.jetbrains.kotlin.plugin.spring").version(Libs.kotlinVersion)
 }
 
 allprojects {
-   apply(plugin = "org.jetbrains.kotlin.jvm")
 
    group = Libs.org
    version = Ci.version
@@ -34,13 +31,12 @@ allprojects {
    dependencies {
       implementation(kotlin("reflect"))
       implementation(Libs.Kotest.api)
-      implementation(Libs.Kotest.engine)
       implementation(Libs.Spring.context)
       implementation(Libs.Spring.test)
       implementation(Libs.Coroutines.coreJvm)
       implementation(Libs.Bytebuddy.bytebuddy)
       testImplementation(Libs.Kotest.junit5)
-      testImplementation("org.springframework.boot:spring-boot-starter-test:2.5.6")
+      testImplementation(Libs.SpringBoot.test)
    }
 
    tasks.named<Test>("test") {

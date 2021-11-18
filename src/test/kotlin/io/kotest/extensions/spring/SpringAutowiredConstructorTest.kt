@@ -1,4 +1,4 @@
-package io.kotest.spring
+package io.kotest.extensions.spring
 
 import io.kotest.core.spec.style.WordSpec
 import io.kotest.matchers.shouldBe
