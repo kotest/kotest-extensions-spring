@@ -90,7 +90,6 @@ class SpringTestExtension(private val mode: SpringTestLifecycleMode = SpringTest
     */
    private fun method(testCase: TestCase): Method = if (Modifier.isFinal(testCase.spec::class.java.modifiers)) {
       if (!ignoreFinalWarning) {
-         @Suppress("MaxLineLength")
          println("Using SpringListener on a final class. If any Spring annotation fails to work, try making this class open.")
       }
       // the method here must exist since we can't add our own

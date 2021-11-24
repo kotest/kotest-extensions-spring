@@ -1,4 +1,4 @@
-name: Code scanning
+name: Scan with Detekt
 
 on:
    push:
@@ -9,6 +9,8 @@ on:
       paths-ignore:
          - '*.md'
          - '*.yml'
+   # Allows you to run this workflow manually from the Actions tab
+   workflow_dispatch:
 
 jobs:
    code-scanning:
@@ -24,10 +26,14 @@ jobs:
                java-version: '8'
 
          -  name: Detekt
-            run: ./gradlew detekt
+            continue-on-error: true
+            uses: gradle/gradle-build-action@v2
+            with:
+               arguments: detekt
 
          -  uses: github/codeql-action/upload-sarif@v1
             if: ${{ !env.ACT }}
+            continue-on-error: true
             with:
                sarif_file: build/reports/detekt/detekt.sarif
                checkout_path: ${{ github.workspace }}
