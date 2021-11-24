@@ -1,17 +1,15 @@
+.DS_Store
+tmp.*
+
 *.class
 *.log
-.idea
+.idea/
 *.iml
 .kotlintest
-.gradle
+.gradle/
 
 target/
 build/
-/build/
 out/
 lib_managed/
 src_managed/
-project/boot/
-project/plugins/project/
-credentials.sbt
-/.idea/
