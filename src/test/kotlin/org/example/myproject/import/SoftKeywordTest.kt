@@ -1,4 +1,4 @@
-@file:Suppress("ktIdIsJavaKw")
+@file:Suppress("ktIdIsJavaKw", "MatchingDeclarationName")
 
 package org.example.myproject.import
 
@@ -15,6 +15,7 @@ import org.springframework.test.context.ContextConfiguration
 class IllegalPackageNameTest : FunSpec() {
    init {
       test("should throw clear error on illegal package name") {
+         @Suppress("MaxLineLength")
          shouldThrowAny {
             SpringExtension.intercept(this@IllegalPackageNameTest) {}
          }.message shouldBe "Spec package name cannot contain a java keyword: import,finally,catch,const,final,inner,protected,private,public"
@@ -22,9 +23,12 @@ class IllegalPackageNameTest : FunSpec() {
    }
 }
 
+@Suppress("UnusedPrivateClass")
 @SpringBootTest
 @ContextConfiguration(classes = [Components::class])
-private class SoftKeywordTest(service: UserService) : StringSpec({
+private class SoftKeywordTest(
+   @Suppress("UNUSED_PARAMETER") service: UserService
+) : StringSpec({
    extensions(SpringExtension)
    "empty test should always be green" {
    }

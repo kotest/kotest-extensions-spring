@@ -1,3 +1,4 @@
+import io.gitlab.arturbosch.detekt.Detekt
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
@@ -9,6 +10,7 @@ plugins {
    // issue https://youtrack.jetbrains.com/issue/KTIJ-19370
    alias(libs.plugins.kotlin.jvm)
    alias(libs.plugins.kotlin.spring)
+   alias(libs.plugins.detekt)
 }
 
 version = Ci.version
@@ -36,6 +38,11 @@ tasks.withType<Test> {
 
 tasks.withType<KotlinCompile> {
    kotlinOptions.jvmTarget = libs.versions.jvm.get()
+}
+tasks.withType<Detekt> {
+   buildUponDefaultConfig = true
+   parallel = true
+   config.from("detekt.yml")
 }
 
 repositories {
