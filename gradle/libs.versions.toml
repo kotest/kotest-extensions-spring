@@ -1,0 +1,25 @@
+[versions]
+jvm = "1.8"
+kotlin = "1.6.0"
+kotlinx-coroutines = "1.6.0-RC"
+kotest = "5.0.0"
+spring = "5.2.18.RELEASE"
+spring-boot = "2.6.0"
+byte-buddy = "1.12.2"
+
+[libraries]
+kotlin-reflect = { group = "org.jetbrains.kotlin", name = "kotlin-reflect", version.ref = "kotlin" }
+kotlinx-coroutines = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "kotlinx-coroutines" }
+
+kotest-framework-api = { group = "io.kotest", name = "kotest-framework-api", version.ref = "kotest" }
+kotest-runner-junit5 = { group = "io.kotest", name = "kotest-runner-junit5", version.ref = "kotest" }
+
+spring-context = { group = "org.springframework", name = "spring-context", version.ref = "spring" }
+spring-test = { group = "org.springframework", name = "spring-test", version.ref = "spring" }
+spring-boot-test = { group = "org.springframework.boot", name = "spring-boot-starter-test", version.ref = "spring-boot" }
+
+byteBuddy = { group = "net.bytebuddy", name = "byte-buddy", version.ref = "byte-buddy" }
+
+[plugins]
+kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+kotlin-spring = { id = "org.jetbrains.kotlin.plugin.spring", version.ref = "kotlin" }

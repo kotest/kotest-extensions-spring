@@ -1,12 +1,14 @@
+@file:Suppress("ktIdIsJavaKw")
+
 package org.example.myproject.import
 
 import io.kotest.assertions.throwables.shouldThrowAny
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.core.spec.style.StringSpec
-import io.kotest.extensions.spring.SpringExtension
-import io.kotest.matchers.shouldBe
 import io.kotest.extensions.spring.Components
+import io.kotest.extensions.spring.SpringExtension
 import io.kotest.extensions.spring.UserService
+import io.kotest.matchers.shouldBe
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.ContextConfiguration
 
@@ -21,7 +23,7 @@ class IllegalPackageNameTest : FunSpec() {
 }
 
 @SpringBootTest
-@ContextConfiguration(classes = [(Components::class)])
+@ContextConfiguration(classes = [Components::class])
 private class SoftKeywordTest(service: UserService) : StringSpec({
    extensions(SpringExtension)
    "empty test should always be green" {

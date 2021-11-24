@@ -1,64 +1,47 @@
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat
-
-buildscript {
-   repositories {
-      jcenter()
-      mavenCentral()
-      maven {
-         url = uri("https://oss.sonatype.org/content/repositories/snapshots/")
-      }
-      maven {
-         url = uri("https://plugins.gradle.org/m2/")
-      }
-   }
-}
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
    java
    `java-library`
    signing
-   maven
    `maven-publish`
-   kotlin("jvm").version(Libs.kotlinVersion)
-   id("org.jetbrains.kotlin.plugin.spring").version(Libs.kotlinVersion)
+   // issue https://youtrack.jetbrains.com/issue/KTIJ-19370
+   alias(libs.plugins.kotlin.jvm)
+   alias(libs.plugins.kotlin.spring)
 }
 
-allprojects {
+version = Ci.version
 
-   group = Libs.org
-   version = Ci.version
+dependencies {
+   implementation(libs.kotlin.reflect)
+   implementation(libs.kotest.framework.api)
+   implementation(libs.spring.context)
+   implementation(libs.spring.test)
+   implementation(libs.kotlinx.coroutines)
+   implementation(libs.byteBuddy)
 
-   dependencies {
-      implementation(kotlin("reflect"))
-      implementation(Libs.Kotest.api)
-      implementation(Libs.Spring.context)
-      implementation(Libs.Spring.test)
-      implementation(Libs.Coroutines.coreJvm)
-      implementation(Libs.Bytebuddy.bytebuddy)
-      testImplementation(Libs.Kotest.junit5)
-      testImplementation(Libs.SpringBoot.test)
+   testImplementation(libs.kotest.runner.junit5)
+   testImplementation(libs.spring.boot.test)
+}
+
+tasks.withType<Test> {
+   useJUnitPlatform()
+   testLogging {
+      showExceptions = true
+      showStandardStreams = true
+      exceptionFormat = TestExceptionFormat.FULL
    }
+}
 
-   tasks.named<Test>("test") {
-      useJUnitPlatform()
-      testLogging {
-         showExceptions = true
-         showStandardStreams = true
-         exceptionFormat = TestExceptionFormat.FULL
-      }
-   }
+tasks.withType<KotlinCompile> {
+   kotlinOptions.jvmTarget = libs.versions.jvm.get()
+}
 
-   tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
-      kotlinOptions.jvmTarget = "1.8"
-   }
-
-   repositories {
-      mavenLocal()
-      mavenCentral()
-      maven {
-         url = uri("https://oss.sonatype.org/content/repositories/snapshots")
-      }
-   }
+repositories {
+   mavenLocal()
+   mavenCentral()
+   maven(url = "https://oss.sonatype.org/content/repositories/snapshots")
 }
 
 apply("./publish.gradle.kts")
