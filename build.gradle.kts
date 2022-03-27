@@ -24,6 +24,8 @@ dependencies {
    implementation(libs.byteBuddy)
 
    testImplementation(libs.kotest.runner.junit5)
+   testImplementation(libs.kotest.framework.datatest)
+   testImplementation(libs.kotest.property)
    testImplementation(libs.spring.boot.test)
 }
 
