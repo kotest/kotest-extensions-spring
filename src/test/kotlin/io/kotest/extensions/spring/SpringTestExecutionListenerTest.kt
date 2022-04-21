@@ -1,7 +1,11 @@
 package io.kotest.extensions.spring
 
 import io.kotest.core.spec.style.FunSpec
+import io.kotest.datatest.withData
 import io.kotest.matchers.shouldBe
+import io.kotest.property.Arb
+import io.kotest.property.arbitrary.int
+import io.kotest.property.checkAll
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.TestContext
@@ -29,13 +33,33 @@ class SpringTestExecutionListenerTest : FunSpec() {
          // Only here to verify counts are incremented
       }
 
+      withData(
+         3, 4
+      ) {
+         // Only here to verify counts are incremented
+      }
+
+      context("wrapped withData") {
+         withData(
+            5, 6, 7
+         ) {
+            // Only here to verify counts are incremented
+         }
+      }
+
+      context("property tests are not included") {
+         checkAll(100, Arb.int()) {
+            // Only here to verify counts are _NOT_ incremented
+         }
+      }
+
       afterProject {
          DummyTestExecutionListener.beforeTestClass shouldBe 1
-         DummyTestExecutionListener.beforeTestMethod shouldBe 2
-         DummyTestExecutionListener.beforeTestExecution shouldBe 2
+         DummyTestExecutionListener.beforeTestMethod shouldBe 7
+         DummyTestExecutionListener.beforeTestExecution shouldBe 7
          DummyTestExecutionListener.prepareTestInstance shouldBe 1
-         DummyTestExecutionListener.afterTestExecution shouldBe 2
-         DummyTestExecutionListener.afterTestmethod shouldBe 2
+         DummyTestExecutionListener.afterTestExecution shouldBe 7
+         DummyTestExecutionListener.afterTestMethod shouldBe 7
          DummyTestExecutionListener.afterTestClass shouldBe 1
       }
    }
@@ -64,7 +88,7 @@ class DummyTestExecutionListener : SpringTestExecutionListener {
    }
 
    override fun afterTestMethod(testContext: TestContext) {
-      afterTestmethod++
+      afterTestMethod++
    }
 
    override fun afterTestClass(testContext: TestContext) {
@@ -77,7 +101,7 @@ class DummyTestExecutionListener : SpringTestExecutionListener {
       var beforeTestExecution = 0
       var prepareTestInstance = 0
       var afterTestExecution = 0
-      var afterTestmethod = 0
+      var afterTestMethod = 0
       var afterTestClass = 0
    }
 }
