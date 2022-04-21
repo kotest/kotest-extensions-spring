@@ -14,6 +14,9 @@ Please create issues on the main kotest [board](https://github.com/kotest/kotest
 
 ## Changelog
 
+### 1.1.1
+* Dynamic tests, for instance using `withData`, now invokes Spring's Test Context before/after between each test case.
+
 ### 1.1.0
 
 * Requires Kotest 5.0 and Kotlin 1.6
