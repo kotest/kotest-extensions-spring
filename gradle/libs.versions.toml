@@ -5,7 +5,7 @@ kotlinx-coroutines = "1.6.0-RC"
 kotest = "5.0.0"
 spring = "5.2.20.RELEASE"
 spring-boot = "2.6.6"
-byte-buddy = "1.12.2"
+byte-buddy = "1.12.10"
 
 [libraries]
 kotlin-reflect = { group = "org.jetbrains.kotlin", name = "kotlin-reflect", version.ref = "kotlin" }
