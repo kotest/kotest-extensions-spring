@@ -4,7 +4,7 @@ kotlin = "1.6.21"
 kotlinx-coroutines = "1.6.1"
 kotest = "5.0.0"
 spring = "5.2.20.RELEASE"
-spring-boot = "2.6.6"
+spring-boot = "2.7.0"
 byte-buddy = "1.12.10"
 
 [libraries]
