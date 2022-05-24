@@ -1,7 +1,7 @@
 [versions]
 jvm = "1.8"
 kotlin = "1.6.21"
-kotlinx-coroutines = "1.6.0-RC"
+kotlinx-coroutines = "1.6.1"
 kotest = "5.0.0"
 spring = "5.2.20.RELEASE"
 spring-boot = "2.6.6"
