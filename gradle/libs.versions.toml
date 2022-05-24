@@ -3,8 +3,8 @@ jvm = "1.8"
 kotlin = "1.6.0"
 kotlinx-coroutines = "1.6.0-RC"
 kotest = "5.0.0"
-spring = "5.2.18.RELEASE"
-spring-boot = "2.6.0"
+spring = "5.2.20.RELEASE"
+spring-boot = "2.6.6"
 byte-buddy = "1.12.2"
 
 [libraries]
