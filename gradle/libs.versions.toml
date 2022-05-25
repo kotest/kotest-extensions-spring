@@ -25,4 +25,3 @@ byteBuddy = { group = "net.bytebuddy", name = "byte-buddy", version.ref = "byte-
 [plugins]
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 kotlin-spring = { id = "org.jetbrains.kotlin.plugin.spring", version.ref = "kotlin" }
-detekt = { id = "io.gitlab.arturbosch.detekt", version = "1.19.0-RC2" }
