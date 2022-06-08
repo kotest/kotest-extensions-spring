@@ -1,6 +1,6 @@
 [versions]
 jvm = "1.8"
-kotlin = "1.6.21"
+kotlin = "1.7.0"
 kotlinx-coroutines = "1.6.2"
 kotest = "5.3.0"
 spring = "5.3.20"
