@@ -28,6 +28,12 @@ dependencies {
    testImplementation(libs.spring.boot.test)
 }
 
+kotlin {
+   jvmOptions {
+      (this as JavaToolchainSpec).languageVersion.set(JavaLanguageVersion.of(11))
+   }
+}
+
 tasks.withType<Test> {
    useJUnitPlatform()
    testLogging {
