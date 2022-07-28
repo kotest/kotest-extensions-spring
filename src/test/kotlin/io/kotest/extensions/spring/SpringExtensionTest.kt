@@ -9,6 +9,7 @@ import io.kotest.core.test.TestCase
 import io.kotest.core.test.TestType
 import io.kotest.matchers.nulls.shouldNotBeNull
 import io.kotest.matchers.shouldBe
+import io.kotest.matchers.string.shouldStartWith
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.test.context.ContextConfiguration
 
@@ -25,7 +26,7 @@ class SpringExtensionTest : WordSpec() {
          "have autowired the service" {
             service.repository.findUser().name shouldBe "system_user"
          }
-         "make test context available in the coroutine context"{
+         "make test context available in the coroutine context" {
             testContextManager().shouldNotBeNull()
          }
          "generate applicable method name for a root test" {
@@ -39,7 +40,7 @@ class SpringExtensionTest : WordSpec() {
                   source = sourceRef(),
                   type = TestType.Test
                )
-            ) shouldBe "_0foo____55__woo"
+            ) shouldStartWith "_0foo____55__woo"
          }
          "generate applicable method name for a nested test" {
             SpringExtension.methodName(
@@ -53,7 +54,7 @@ class SpringExtensionTest : WordSpec() {
                   source = sourceRef(),
                   type = TestType.Test
                )
-            ) shouldBe "_0foo____55__woo____wibble__wobble"
+            ) shouldStartWith "wibble__wobble"
          }
       }
    }

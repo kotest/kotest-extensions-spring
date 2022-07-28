@@ -17,6 +17,7 @@ import net.bytebuddy.implementation.FixedValue
 import org.springframework.test.context.TestContextManager
 import java.lang.reflect.Method
 import java.lang.reflect.Modifier
+import java.util.UUID
 import kotlin.coroutines.AbstractCoroutineContextElement
 import kotlin.coroutines.CoroutineContext
 import kotlin.coroutines.coroutineContext
@@ -64,14 +65,15 @@ class SpringTestExtension(private val mode: SpringTestLifecycleMode = SpringTest
    }
 
    override suspend fun intercept(testCase: TestCase, execute: suspend (TestCase) -> TestResult): TestResult {
+      val methodName = method(testCase)
       if (testCase.isApplicable()) {
-         testContextManager().beforeTestMethod(testCase.spec, method(testCase))
-         testContextManager().beforeTestExecution(testCase.spec, method(testCase))
+         testContextManager().beforeTestMethod(testCase.spec, methodName)
+         testContextManager().beforeTestExecution(testCase.spec, methodName)
       }
       val result = execute(testCase)
       if (testCase.isApplicable()) {
-         testContextManager().afterTestMethod(testCase.spec, method(testCase), null as Throwable?)
-         testContextManager().afterTestExecution(testCase.spec, method(testCase), null as Throwable?)
+         testContextManager().afterTestMethod(testCase.spec, methodName, null as Throwable?)
+         testContextManager().afterTestExecution(testCase.spec, methodName, null as Throwable?)
       }
       return result
    }
@@ -120,11 +122,9 @@ class SpringTestExtension(private val mode: SpringTestLifecycleMode = SpringTest
 
    /**
     * Generates a fake method name for the given [TestCase].
-    * The method name is taken from the test case path.
+    * The method name is taken from the test case name with a random element.
     */
-   internal fun methodName(testCase: TestCase): String = testCase.descriptor
-      .path(false)
-      .value
+   internal fun methodName(testCase: TestCase): String = (testCase.name.testName + "_" + UUID.randomUUID().toString())
       .replace(methodNameRegex, "_")
       .let {
          if (it.first().isLetter()) it else "_$it"
