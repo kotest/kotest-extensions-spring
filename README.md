@@ -14,7 +14,12 @@ Please create issues on the main kotest [board](https://github.com/kotest/kotest
 
 ## Changelog
 
+### 1.1.2
+
+* Fix for Kotest 5.4. Safe to use on all on 5.x versions.
+
 ### 1.1.1
+
 * Dynamic tests, for instance using `withData`, now invokes Spring's Test Context before/after between each test case.
 
 ### 1.1.0
