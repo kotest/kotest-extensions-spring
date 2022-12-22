@@ -12,6 +12,9 @@ Please create issues on the main kotest [board](https://github.com/kotest/kotest
 [![kotest @ kotlinlang.slack.com](https://img.shields.io/static/v1?label=kotlinlang&message=kotest&color=blue&logo=slack)](https://kotlinlang.slack.com/archives/CT0G9SD7Z)
 [<img src="https://img.shields.io/nexus/s/https/s01.oss.sonatype.org/io.kotest.extensions/kotest-extensions-spring.svg?label=latest%20snapshot"/>](https://s01.oss.sonatype.org/content/repositories/snapshots/io/kotest/extensions/kotest-extensions-spring/)
 
+## Compatibility
+The current version, `1.1.2`, is confirmed to be compatible with Spring Boot 3.
+
 ## Changelog
 
 ### 1.1.2
