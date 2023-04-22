@@ -13,9 +13,19 @@ Please create issues on the main kotest [board](https://github.com/kotest/kotest
 [<img src="https://img.shields.io/nexus/s/https/s01.oss.sonatype.org/io.kotest.extensions/kotest-extensions-spring.svg?label=latest%20snapshot"/>](https://s01.oss.sonatype.org/content/repositories/snapshots/io/kotest/extensions/kotest-extensions-spring/)
 
 ## Compatibility
-The current version, `1.1.2`, is confirmed to be compatible with Spring Boot 3.
+The current version, `1.1.3`, is confirmed to be compatible with Spring Boot 3, Kotest 5.6 and Kotlin 1.8.
+
+See the [kotest-examples-spring-webflux](https://github.com/kotest/kotest-examples-spring-webflux) project for an
+example where this extension is used with the most up-to-date versions of Kotest and Spring Boot.
 
 ## Changelog
+
+### 1.1.3
+Maintenance release, only updating dependencies
+* Gradle 7.6.1
+* Spring 5.3.27
+* Kotest 5.5.5
+* byte-buddy 1.14.4
 
 ### 1.1.2
 
