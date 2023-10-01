@@ -1,8 +1,8 @@
 [versions]
 jvm = "1.8"
-kotlin = "1.6.21"
-kotlinx-coroutines = "1.6.4"
-kotest = "5.5.5"
+kotlin = "1.8.21"
+kotlinx-coroutines = "1.7.2"
+kotest = "5.7.2"
 spring = "5.3.30"
 spring-boot = "2.7.16"
 byte-buddy = "1.14.8"
