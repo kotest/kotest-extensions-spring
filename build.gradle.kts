@@ -38,7 +38,12 @@ tasks.withType<Test> {
 }
 
 tasks.withType<KotlinCompile> {
-   kotlinOptions.jvmTarget = libs.versions.jvm.get()
+   kotlinOptions.jvmTarget = "1.8"
+}
+
+java {
+   targetCompatibility = JavaVersion.VERSION_1_8
+   sourceCompatibility = JavaVersion.VERSION_1_8
 }
 
 repositories {
