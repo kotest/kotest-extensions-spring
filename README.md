@@ -20,7 +20,12 @@ example where this extension is used with the most up-to-date versions of Kotest
 
 ## Changelog
 
+### 1.2.0
+
+* Updated to use Kotest 5.7 and Kotlin 1.8
+
 ### 1.1.3
+
 Maintenance release, only updating dependencies
 * Gradle 7.6.1
 * Spring 5.3.27
