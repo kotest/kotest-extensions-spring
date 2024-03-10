@@ -25,12 +25,12 @@ jobs:
                java-version: '8'
 
          -  name: Run tests
-            uses: gradle/gradle-build-action@v2
+            uses: gradle/gradle-build-action@v3
             with:
                arguments: check
 
          -  name: publish snapshots
-            uses: gradle/gradle-build-action@v2
+            uses: gradle/gradle-build-action@v3
             with:
                arguments: publish
             env:
