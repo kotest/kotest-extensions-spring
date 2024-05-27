@@ -72,8 +72,8 @@ class SpringTestExtension(private val mode: SpringTestLifecycleMode = SpringTest
       }
       val result = execute(testCase)
       if (testCase.isApplicable()) {
-         testContextManager().afterTestMethod(testCase.spec, methodName, null as Throwable?)
-         testContextManager().afterTestExecution(testCase.spec, methodName, null as Throwable?)
+         testContextManager().afterTestExecution(testCase.spec, methodName, result.errorOrNull)
+         testContextManager().afterTestMethod(testCase.spec, methodName, result.errorOrNull)
       }
       return result
    }
