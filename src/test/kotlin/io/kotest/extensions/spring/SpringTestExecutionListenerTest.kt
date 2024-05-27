@@ -1,6 +1,9 @@
 package io.kotest.extensions.spring
 
+import io.kotest.core.extensions.TestCaseExtension
 import io.kotest.core.spec.style.FunSpec
+import io.kotest.core.test.TestCase
+import io.kotest.core.test.TestResult
 import io.kotest.datatest.withData
 import io.kotest.matchers.shouldBe
 import io.kotest.property.Arb
@@ -22,7 +25,18 @@ class SpringTestExecutionListenerTest : FunSpec() {
    @Autowired
    lateinit var userService: UserService
 
-   override fun extensions() = listOf(SpringExtension)
+   private object IgnoreExceptions : TestCaseExtension {
+      override suspend fun intercept(testCase: TestCase, execute: suspend (TestCase) -> TestResult): TestResult =
+         execute(testCase).let { result ->
+            if (result.isError) TestResult.Ignored
+            else result
+         }
+   }
+
+   override fun extensions() = listOf(
+      IgnoreExceptions, // Must be applied before SpringExtension, else it hides the exception from the SpringExtension
+      SpringExtension,
+   )
 
    init {
       test("Should autowire with spring listeners") {
@@ -47,6 +61,10 @@ class SpringTestExecutionListenerTest : FunSpec() {
          }
       }
 
+      test("Test that throws") {
+         throw RuntimeException("Boom")
+      }
+
       context("property tests are not included") {
          checkAll(100, Arb.int()) {
             // Only here to verify counts are _NOT_ incremented
@@ -55,12 +73,13 @@ class SpringTestExecutionListenerTest : FunSpec() {
 
       afterProject {
          DummyTestExecutionListener.beforeTestClass shouldBe 1
-         DummyTestExecutionListener.beforeTestMethod shouldBe 7
-         DummyTestExecutionListener.beforeTestExecution shouldBe 7
+         DummyTestExecutionListener.beforeTestMethod shouldBe 8
+         DummyTestExecutionListener.beforeTestExecution shouldBe 8
          DummyTestExecutionListener.prepareTestInstance shouldBe 1
-         DummyTestExecutionListener.afterTestExecution shouldBe 7
-         DummyTestExecutionListener.afterTestMethod shouldBe 7
+         DummyTestExecutionListener.afterTestExecution shouldBe 8
+         DummyTestExecutionListener.afterTestMethod shouldBe 8
          DummyTestExecutionListener.afterTestClass shouldBe 1
+         DummyTestExecutionListener.testErrors shouldBe 1
       }
    }
 }
@@ -85,6 +104,7 @@ class DummyTestExecutionListener : SpringTestExecutionListener {
 
    override fun afterTestExecution(testContext: TestContext) {
       afterTestExecution++
+      if (testContext.testException != null) testErrors++
    }
 
    override fun afterTestMethod(testContext: TestContext) {
@@ -101,6 +121,7 @@ class DummyTestExecutionListener : SpringTestExecutionListener {
       var beforeTestExecution = 0
       var prepareTestInstance = 0
       var afterTestExecution = 0
+      var testErrors = 0
       var afterTestMethod = 0
       var afterTestClass = 0
    }
