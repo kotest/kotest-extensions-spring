@@ -2,9 +2,11 @@
 
 package io.kotest.extensions.spring
 
+import io.kotest.core.extensions.Extension
 import io.kotest.core.extensions.SpecExtension
 import io.kotest.core.extensions.TestCaseExtension
 import io.kotest.core.spec.Spec
+import io.kotest.core.spec.functionOverrideCallbacks
 import io.kotest.core.test.TestCase
 import io.kotest.core.test.TestResult
 import io.kotest.core.test.TestType
@@ -67,6 +69,7 @@ class SpringTestExtension(private val mode: SpringTestLifecycleMode = SpringTest
    override suspend fun intercept(testCase: TestCase, execute: suspend (TestCase) -> TestResult): TestResult {
       val methodName = method(testCase)
       if (testCase.isApplicable()) {
+         extensions(testCase).filterIsInstance<BeforeSpringExtension>().forEach{ it.beforeSpring(testCase)}
          testContextManager().beforeTestMethod(testCase.spec, methodName)
          testContextManager().beforeTestExecution(testCase.spec, methodName)
       }
@@ -108,6 +111,14 @@ class SpringTestExtension(private val mode: SpringTestLifecycleMode = SpringTest
          .load(this::class.java.classLoader, ClassLoadingStrategy.Default.CHILD_FIRST)
          .loaded
       fakeSpec.getMethod(methodName)
+   }
+
+   private fun extensions(testCase: TestCase): List<Extension> {
+      return testCase.spec.extensions() + // overriding the extensions function in the spec
+         testCase.spec.listeners() + // overriding the listeners function in the spec
+         testCase.spec.functionOverrideCallbacks() + // spec level dsl eg beforeTest { }
+         testCase.spec.registeredExtensions() + // added to the spec via register
+         testCase.config.extensions
    }
 
    /**
