@@ -5,11 +5,14 @@ kotlinx-coroutines = "1.7.2"
 kotest = "5.8.1"
 spring = "5.3.39"
 spring-boot = "2.7.16"
+spring-security = "5.3.13.RELEASE"
 byte-buddy = "1.14.18"
+reactor-kotlin = "1.1.11"
 
 [libraries]
 kotlin-reflect = { group = "org.jetbrains.kotlin", name = "kotlin-reflect", version.ref = "kotlin" }
 kotlinx-coroutines = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "kotlinx-coroutines" }
+kotlinx-coroutines-reactor = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-reactor", version.ref = "kotlinx-coroutines" }
 
 kotest-framework-datatest = { group = "io.kotest", name = "kotest-framework-datatest", version.ref = "kotest" }
 kotest-framework-api = { group = "io.kotest", name = "kotest-framework-api", version.ref = "kotest" }
@@ -19,8 +22,13 @@ kotest-runner-junit5 = { group = "io.kotest", name = "kotest-runner-junit5", ver
 spring-context = { group = "org.springframework", name = "spring-context", version.ref = "spring" }
 spring-test = { group = "org.springframework", name = "spring-test", version.ref = "spring" }
 spring-boot-test = { group = "org.springframework.boot", name = "spring-boot-starter-test", version.ref = "spring-boot" }
+spring-security-test = { group = "org.springframework.security", name = "spring-security-test", version.ref = "spring-security" }
+spring-boot-starter-webflux = {group = "org.springframework.boot", name = "spring-boot-starter-webflux", version.ref = "spring-boot" }
+spring-boot-starter-security = {group = "org.springframework.boot", name = "spring-boot-starter-security", version.ref = "spring-boot" }
 
 byteBuddy = { group = "net.bytebuddy", name = "byte-buddy", version.ref = "byte-buddy" }
+
+reactor-kotlin-extensions = { group = "io.projectreactor.kotlin", name = "reactor-kotlin-extensions", version.ref = "reactor-kotlin" }
 
 [plugins]
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }

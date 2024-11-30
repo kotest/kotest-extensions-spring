@@ -21,11 +21,16 @@ dependencies {
    implementation(libs.spring.test)
    implementation(libs.kotlinx.coroutines)
    implementation(libs.byteBuddy)
+   implementation(libs.spring.security.test)
 
    testImplementation(libs.kotest.runner.junit5)
    testImplementation(libs.kotest.framework.datatest)
    testImplementation(libs.kotest.property)
    testImplementation(libs.spring.boot.test)
+   testImplementation(libs.spring.boot.starter.webflux)
+   testImplementation(libs.spring.boot.starter.security)
+   testImplementation(libs.reactor.kotlin.extensions)
+   testImplementation(libs.kotlinx.coroutines.reactor)
 }
 
 tasks.withType<Test> {
