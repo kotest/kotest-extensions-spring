@@ -1,5 +1,7 @@
 # kotest-extension-spring
 
+### This project has been promoted to the top level Kotest repo. Follow development and raise tickets in that project.
+
 Kotest extension for [Spring](https://spring.io/projects/spring-framework/).
 
 See [docs](https://kotest.io/docs/extensions/spring.html).
